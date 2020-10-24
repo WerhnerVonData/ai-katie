@@ -1,2 +1,1 @@
-from .deep_learning.ConfigurableDense import ConfigurableDense
-from .deep_learning.ConfigurableDense import _translate_name_to_layer
+__all__ = ['deep_learning']

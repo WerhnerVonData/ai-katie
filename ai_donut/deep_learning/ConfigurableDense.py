@@ -8,13 +8,17 @@ import importlib
 
 def _translate_name_to_layer(name):
     return {
-        "input": getattr(importlib.import_module("tensorflow.keras.layers"), "Input")
+        "input": getattr(importlib.import_module("tensorflow.keras.layers"), "Input"),
+        "dense": getattr(importlib.import_module("tensorflow.keras.layers"), "Dense")
     }.get(name, None)
 
 
 class ConfigurableDense:
-    def __init__(self):
+    def __init__(self, model_structure):
+        self.model = Model
         yield
 
-    # def _construct_model(self, model_structure):
+    @staticmethod
+    def _construct_model(model_structure):
+        yield
 
