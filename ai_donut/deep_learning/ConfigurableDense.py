@@ -9,7 +9,8 @@ import importlib
 def _translate_name_to_layer(name):
     return {
         "input": getattr(importlib.import_module("tensorflow.keras.layers"), "Input"),
-        "dense": getattr(importlib.import_module("tensorflow.keras.layers"), "Dense")
+        "dense": getattr(importlib.import_module("tensorflow.keras.layers"), "Dense"),
+        "dropout": getattr(importlib.import_module("tensorflow.keras.layers"), "Dropout")
     }.get(name, None)
 
 
