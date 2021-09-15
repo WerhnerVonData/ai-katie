@@ -9,8 +9,8 @@ Memory has a limited buffer based on the FIFO queue.
 
 class ReplayMemory:
     def __init__(self, capacity=10000):
-        self.capacity = capacity
-        self.buffer = deque()
+        self._capacity = capacity
+        self._buffer = deque()
 
     def sample_batch(self, batch_size):
         """
@@ -22,25 +22,44 @@ class ReplayMemory:
         if batch_size <= 0:
             return
         ofs = 0
-        vals = list(self.buffer)
+        vals = list(self._buffer)
         np.random.shuffle(vals)
-        while (ofs + 1) * batch_size <= len(self.buffer):
+        while (ofs + 1) * batch_size <= len(self._buffer):
             yield vals[ofs * batch_size:(ofs + 1) * batch_size]
             ofs += 1
 
     def append_memory(self, data):
         """
-
-        :param data:
+        Adds new data element to the replay memory buffer.
+        When the capacity is reached, the oldest element in the
+        buffer is removed.
+        :param data: data element to add
         :return:
         """
-        self.buffer.append(data)
-        while len(self.buffer) > self.capacity:
-            self.buffer.popleft()
+        self._buffer.append(data)
+        while len(self._buffer) > self._capacity:
+            self._buffer.popleft()
 
-    def is_buffer_full(self, capacity_percantage=100):
+    def is_buffer_full(self):
         """
+        Tells if buffer reached the maximum value of the capacity.
+        :return: True when the number of elements is equal of higher than the capacity.
+        False otherwise.
+        """
+        return len(self._buffer) >= self._capacity
 
-        :return:
+    def is_buffer_fulled_by_percentage_value(self, capacity_percantage=100):
         """
-        return len(self.buffer) >= self.capacity
+        Tells if buffer reached the given percentage of the capacity.
+        The percentage value should be between 0 and 100.
+        Negative values treat as 0% and value higher than 100 as 100%.
+        :param capacity_percantage: the percentage of value of the buffer that we want to compare the capacity.
+        :return: True when the elements in the buffer are equal or higher than
+        the percentage value of the memory capacity, False otherwise.
+        """
+        percentage = capacity_percantage
+        if percentage > 100:
+            percentage = 100
+        elif percentage < 0:
+            percentage = 0
+        return len(self._buffer) >= self._capacity * (percentage / 100.0)

@@ -3,7 +3,6 @@ The library that is meant to be my own Python package that provides utility tool
 
 TODO:
 - SoftmaxBody
-- ReplayMemory
 - Tests for them
 - Fill README
 - Update README with link to travis etc.
