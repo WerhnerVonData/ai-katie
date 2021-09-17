@@ -1,4 +1,4 @@
-from src.katie.rl.replay_memory import ReplayMemory
+from katie.rl.replay_memory import ReplayMemory
 import pytest
 
 

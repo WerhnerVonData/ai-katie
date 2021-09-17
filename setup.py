@@ -9,7 +9,7 @@ with open("README.rst", "r", encoding="utf-8") as fh:
 def load_version():
     """ Loads a file content """
     filename = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                            "src", "src/katie", "__init__.py"))
+                                            "src", "katie", "__init__.py"))
     with open(filename, "rt") as version_file:
         init_file = version_file.read()
         version = re.search(r"__version__ = '([0-9a-z.-]+)'", init_file).group(1)
@@ -35,7 +35,7 @@ setuptools.setup(name='ai-katie',
                      'Topic :: Communications :: Email',
                      'Topic :: Software Development :: Bug Tracking'
                  ],
-                 package_dir={"": "src"},
-                 packages=setuptools.find_packages(where="src"),
+                 package_dir={"": "."},
+                 packages=setuptools.find_packages(where="."),
                  python_requires=">=3.6"
                  )
