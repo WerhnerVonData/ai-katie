@@ -1,7 +1,7 @@
 ai-katie
 ========
 
-The library that provides utility tools for Data Science and AI using common libraries.
+The utility for Data Science and AI using common libraries.
 Extended by myself when I'm running to problem that might happen more than once.
 
 - Github: https://github.com/danpeczek/ai-katie
@@ -14,15 +14,14 @@ Extended by myself when I'm running to problem that might happen more than once.
 
 Setup
 =====
-To setup to library you need at least Python 3.6 and pip installed.
+To setup to library you need at least Python 3.8 and pip installed.
+
+Also as the package uses PyTorch I strongly suggest to install the PyTorch
+in the distribution of your choice from: https://pytorch.org/get-started/locally/ before installing the library.
+
+When all dependencies are installed you can install the library by:
 
     $ pip install ai-katie
-
-To build it directly from the code:
-
-    $ pip install -r requirements.txt
-    $ pip install .
-    $ pytest
 
 License
 -------
@@ -30,10 +29,3 @@ License
 `MIT LICENSE <./LICENSE>`__
 
 .. |Build Status| image:: https://app.travis-ci.com/danpeczek/ai-katie.svg?token=ECqr2qx7PpxzXbk67mZ9&branch=main
-
-TODO:
-- Fill README
-- Update README with link to travis etc.
-- Publish on test-pypi
-- Test it with ai-doom
-- Publish on real pypi
