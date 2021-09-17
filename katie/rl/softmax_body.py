@@ -18,10 +18,13 @@ class SoftmaxBody:
     def __call__(self, outputs, num_samples=1):
         """
         Generates softmax upon the outputs and based on the probability returns samples.
-        :param outputs: the outputs tensor that we want to apply softmax.
+        :param outputs: the outputs tensor that we want to apply softmax. The shape of outputs should be (1, n).
         :param num_samples: the number of samples that should be taken based on the probability. Defaults to 1.
+        If number of samples is longer than length of outputs, the number of samples is set to length of the output.
         :return: indexes of the chosen outputs taken by the probability of this output.
         """
-        probabilities = softmax(outputs * self.temperature, dim=len(outputs))
-        samples = probabilities.multinomial(num_samples=num_samples)
-        return samples
+        probabilities = softmax(outputs * self.temperature, dim=1)
+        if num_samples >= outputs.shape[1]:
+            return probabilities.multinomial(num_samples=outputs.shape[1])
+        else:
+            return probabilities.multinomial(num_samples=num_samples)
