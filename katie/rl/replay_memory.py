@@ -79,13 +79,17 @@ class ReplayMemory:
     def load_memory_buffer(self, file_name: str):
         """
         Loads the buffer from the pickle file. Caution - it will clear the current content of the memory buffer.
-        When loaded it will remove all exceeding data to fit the current capacity (removing from left side).
+        The loaded data will not exceed the memory capacity.
         :param file_name: the name of the file. The file name must contain the '.pickle' extension.
         If the file does not exist, or it has the wrong extension, the right exception is raised.
+        If the pickle content is not iterable, the TypeError is raised.
         """
         if file_name.endswith(".pickle"):
             with open(file_name, 'rb') as f:
                 self._buffer.clear()
-                self._buffer = pickle.load(f)
+                for data in pickle.load(f):
+                    self._buffer.append(data)
+                    if self.is_buffer_full():
+                        return
                 return
         raise TypeError("The file name {} does not ends with '.pickle' extension.".format(file_name))

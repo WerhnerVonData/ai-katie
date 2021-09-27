@@ -1,8 +1,11 @@
 import os
+import pickle
+
 import pytest
 from katie.rl.replay_memory import ReplayMemory
 
 _file_name = "buffer.pickle"
+_file_name2 = "buffer2.pickle"
 _file_name_no_extension = "buffer"
 
 
@@ -64,8 +67,41 @@ def test_load_memory_buffer_is_cleaned():
     assert (rm._buffer == rm_load._buffer)
     os.remove(_file_name)
 
+
+def test_load_memory_do_not_corrupt_buffer_when_fails():
+    rm = ReplayMemory()
+    _fill_memory(rm, data="TEST")
+    buffer_copy = rm._buffer.copy()
+
+    with pytest.raises(TypeError):
+        rm.load_memory_buffer(_file_name_no_extension)
+    assert (buffer_copy == rm._buffer)
+
+    with pytest.raises(FileNotFoundError):
+        rm.load_memory_buffer(_file_name2)
+    assert (buffer_copy == rm._buffer)
+
+
+def test_load_memory_keeps_the_set_capacity():
+    rm = ReplayMemory(capacity=1000)
+    _fill_memory(rm)
+    rm.save_memory_buffer(_file_name)
+
+    rm_2 = ReplayMemory(capacity=500)
+    rm_2.load_memory_buffer(_file_name)
+
+    assert (len(rm_2._buffer) == rm_2._capacity)
+    os.remove(_file_name)
+
+
+def test_load_memory_not_fails_when_pickle_content_not_iterable():
+    test_pickle = 15000
+    with open(_file_name, "wb") as f:
+        pickle.dump(test_pickle, f)
+    rm = ReplayMemory()
+    with pytest.raises(TypeError):
+        rm.load_memory_buffer(_file_name)
+    os.remove(_file_name)
+
 # TODO:
-# - Test that will verify that buffer removes exceeding data from left side
-# - Test the buffer was cleaned from previous data after load
-# - Test that the current buffer is untouched when the loading fails
 # - Optional hashing mechanism - https://www.quickprogrammingtips.com/python/how-to-calculate-sha256-hash-of-a-file-in-python.html
