@@ -84,8 +84,8 @@ class ReplayMemory:
         If the file does not exist, or it has the wrong extension, the right exception is raised.
         """
         if file_name.endswith(".pickle"):
-            self._buffer.clear()
             with open(file_name, 'rb') as f:
+                self._buffer.clear()
                 self._buffer = pickle.load(f)
                 return
         raise TypeError("The file name {} does not ends with '.pickle' extension.".format(file_name))
