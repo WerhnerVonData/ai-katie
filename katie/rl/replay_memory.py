@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from collections import deque
 
@@ -12,7 +13,7 @@ class ReplayMemory:
         self._capacity = capacity
         self._buffer = deque()
 
-    def sample_batch(self, batch_size):
+    def sample_batch(self, batch_size: int):
         """
         Creates an iterator that returns random batches from the buffer.
         The batch size has to be smaller than the current number of data elements.
@@ -63,3 +64,28 @@ class ReplayMemory:
         elif percentage < 0:
             percentage = 0
         return len(self._buffer) >= self._capacity * (percentage / 100.0)
+
+    def save_memory_buffer(self, file_name: str):
+        """
+        Saves the buffer to pickle file.
+        :param file_name: the name of the file. The file name must contain the '.pickle' extension.
+        """
+        if file_name.endswith(".pickle"):
+            with open(file_name, 'wb') as f:
+                pickle.dump(self._buffer, f)
+                return
+        raise TypeError("The file name {} does not ends with '.pickle' extension.".format(file_name))
+
+    def load_memory_buffer(self, file_name: str):
+        """
+        Loads the buffer from the pickle file. Caution - it will clear the current content of the memory buffer.
+        When loaded it will remove all exceeding data to fit the current capacity (removing from left side).
+        :param file_name: the name of the file. The file name must contain the '.pickle' extension.
+        If the file does not exist, or it has the wrong extension, the right exception is raised.
+        """
+        if file_name.endswith(".pickle"):
+            self._buffer.clear()
+            with open(file_name, 'rb') as f:
+                self._buffer = pickle.load(f)
+                return
+        raise TypeError("The file name {} does not ends with '.pickle' extension.".format(file_name))
