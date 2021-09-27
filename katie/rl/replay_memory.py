@@ -41,6 +41,20 @@ class ReplayMemory:
         while len(self._buffer) > self._capacity:
             self._buffer.popleft()
 
+    def get_current_buffer_size(self):
+        """
+        Return the current number of buffer elements
+        :return: number of buffer elements
+        """
+        return len(self._buffer)
+
+    def get_capacity(self):
+        """
+        Returns the maximum capacity of the memory
+        :return: the memory set capacity
+        """
+        return self._capacity
+
     def is_buffer_full(self):
         """
         Tells if buffer reached the maximum value of the capacity.

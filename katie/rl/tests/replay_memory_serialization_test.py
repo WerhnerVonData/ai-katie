@@ -10,7 +10,7 @@ _file_name_no_extension = "buffer"
 
 
 def _fill_memory(replay_memory: ReplayMemory, data: str = ""):
-    for n in range(0, replay_memory._capacity):
+    for n in range(0, replay_memory.get_capacity()):
         replay_memory.append_memory(str(n) + data)
 
 
