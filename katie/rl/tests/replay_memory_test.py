@@ -87,3 +87,4 @@ def test_buffer_fulled_by_percentage_value(buffer_size, expected_value):
     for n in range(0, buffer_size):
         rm.append_memory(n)
     assert (expected_value == rm.is_buffer_full())
+

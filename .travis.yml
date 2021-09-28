@@ -5,4 +5,8 @@ python: "3.8"
 install:
 - pip install -r requirements.txt
 
-script: pytest
+script:
+  - mkdir test_data
+  - cd test_data
+  - pytest ..
+  - rm -rf test_data
