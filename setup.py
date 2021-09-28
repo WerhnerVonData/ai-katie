@@ -1,5 +1,4 @@
 import setuptools
-from typing import List
 import os
 import re
 
