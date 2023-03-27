@@ -19,10 +19,10 @@ setuptools.setup(name='ai-katie',
                  version=load_version(),
                  description='Utility things for Data Science and AI',
                  long_description=long_description,
-                 author='WernherVonData',
-                 url='https://github.com/WernherVonData/ai-katie',
+                 author='danpeczek',
+                 url='https://github.com/danpeczek/ai-katie',
                  project_urls={
-                     "Bug Tracker": "https://github.com/WernherVonData/ai-katie/issues",
+                     "Bug Tracker": "https://github.com/danpeczek/ai-katie/issues",
                  },
                  install_requires=["torch", "numpy"],
                  classifiers=[
